@@ -17,7 +17,7 @@ import br.sk.io.prompt.answer.Answer;
 /**
  * Created by andy on 22.01.16.
  */
-public class ListPromptBuilder {
+public class ListChoicePromptBuilder {
 	private final PromptBuilder promptBuilder;
 	private String name;
 	private String message;
@@ -26,12 +26,12 @@ public class ListPromptBuilder {
 	private Function<Map<String, Answer>, Set<String>> fnChoices;
 	private Function<Map<String, Answer>, Boolean> fnWhen;
 
-	public ListPromptBuilder(PromptBuilder promptBuilder, String name) {
+	public ListChoicePromptBuilder(PromptBuilder promptBuilder, String name) {
 		this.promptBuilder = promptBuilder;
 		this.name = name;
 	}
 
-	public ListPromptBuilder message(String message) {
+	public ListChoicePromptBuilder message(String message) {
 		this.message = message;
 		if (name == null) {
 			name = message;
@@ -39,7 +39,7 @@ public class ListPromptBuilder {
 		return this;
 	}
 
-	public ListPromptBuilder message(Function<Map<String, Answer>, String> fnMessage) {
+	public ListChoicePromptBuilder message(Function<Map<String, Answer>, String> fnMessage) {
 		this.fnMessage = fnMessage;
 		if (name == null) {
 			name = message;
@@ -47,12 +47,12 @@ public class ListPromptBuilder {
 		return this;
 	}
 
-	public ListPromptBuilder when(Function<Map<String, Answer>, Boolean> when) {
+	public ListChoicePromptBuilder when(Function<Map<String, Answer>, Boolean> when) {
 		this.fnWhen = when;
 		return this;
 	}
 
-	public ListPromptBuilder choices(String... choices) {
+	public ListChoicePromptBuilder choices(String... choices) {
 		//// @formatter:off
 		Arrays.asList(choices).stream()
 			.filter(StringUtils::isNotBlank)
@@ -61,7 +61,7 @@ public class ListPromptBuilder {
 		return this;
 	}
 
-	public ListPromptBuilder choices(Function<Map<String, Answer>, Set<String>> fnChoices) {
+	public ListChoicePromptBuilder choices(Function<Map<String, Answer>, Set<String>> fnChoices) {
 		this.fnChoices = fnChoices;
 		return this;
 	}

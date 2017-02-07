@@ -25,8 +25,8 @@ public class PromptBuilder {
 		return new InputPromptBuilder(this, name);
 	}
 
-	public ListPromptBuilder listPrompt(String name) {
-		return new ListPromptBuilder(this, name);
+	public ListChoicePromptBuilder listPrompt(String name) {
+		return new ListChoicePromptBuilder(this, name);
 	}
 
 	/*
@@ -38,7 +38,7 @@ public class PromptBuilder {
 		return new CheckboxPromptBuilder(this, name);
 	}
 
-	public ConfirmPromptBuilder confirmPrompt(String name) {
-		return new ConfirmPromptBuilder(this, name);
+	public ConfirmChoicePromptBuilder confirmPrompt(String name) {
+		return new ConfirmChoicePromptBuilder(this, name);
 	}
 }
