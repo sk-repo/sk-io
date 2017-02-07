@@ -73,7 +73,7 @@
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
-										<Main-Class>br.sk.io.Basic10</Main-Class>
+										<Main-Class>br.sk.io.console.Basic10</Main-Class>
 										<Build-Number>1.0</Build-Number>
 									</manifestEntries>
 								</transformer>
