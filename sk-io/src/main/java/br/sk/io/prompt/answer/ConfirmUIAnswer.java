@@ -2,11 +2,11 @@ package br.sk.io.prompt.answer;
 
 import java.util.HashSet;
 
-import br.sk.io.elements.ConfirmChoice;
-import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
+import br.sk.io.components.ConfirmUI;
+import br.sk.io.components.ConfirmUI.ConfirmationValue;
 
-public class ConfirmAnswer implements Answer {
-	ConfirmChoice.ConfirmationValue confirmed;
+public class ConfirmUIAnswer implements AnswerUI {
+	ConfirmUI.ConfirmationValue confirmed;
 
 	/**
 	 * Default constructor.
@@ -14,7 +14,7 @@ public class ConfirmAnswer implements Answer {
 	 * @param confirm
 	 *            the result value to hold.
 	 */
-	public ConfirmAnswer(ConfirmChoice.ConfirmationValue confirm) {
+	public ConfirmUIAnswer(ConfirmUI.ConfirmationValue confirm) {
 		this.confirmed = confirm;
 	}
 
@@ -23,7 +23,7 @@ public class ConfirmAnswer implements Answer {
 	 * 
 	 * @return confirmation value.
 	 */
-	public ConfirmChoice.ConfirmationValue getConfirmed() {
+	public ConfirmUI.ConfirmationValue getConfirmed() {
 		return confirmed;
 	}
 

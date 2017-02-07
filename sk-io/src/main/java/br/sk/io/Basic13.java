@@ -9,9 +9,9 @@ import java.util.HashSet;
 
 import org.fusesource.jansi.AnsiConsole;
 
-import br.sk.io.elements.ConfirmChoice;
+import br.sk.io.components.ConfirmUI;
 import br.sk.io.prompt.ConsolePrompt;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.prompt.answer.AnswerUI;
 import br.sk.io.prompt.builder.PromptBuilder;
 import jline.TerminalFactory;
 
@@ -31,13 +31,13 @@ public class Basic13 {
 			PromptBuilder promptBuilder = prompt.getPromptBuilder();
 
 			//// @formatter:off
-			promptBuilder.listPrompt("pizzatype")
+			promptBuilder.selectOneUI("pizzatype")
 				.message(anwers -> "Escolha a pizza ")
 				.choices("Margherita", "Veneziana", "Hawai", "Quattro Stagioni")
 			.build();
 			
 			//// @formatter:off
-			promptBuilder.inputPrompt("name")
+			promptBuilder.inputUI("name")
 	              .message(anwer -> "Digite o nome")
 	              .required()
 	              //.mask('*')
@@ -48,7 +48,7 @@ public class Basic13 {
 		    // @formatter:on
 
 			//// @formatter:off
-            promptBuilder.checkboxPrompt("topping")
+            promptBuilder.selectManyUI("topping")
 	              .message("Pizzas de Hawai:")
 	              .choices(answers -> new HashSet<>(Arrays.asList("A", "B", "C")))
 	              .when(answers -> answers.get("pizzatype").value().equals("Hawai"))
@@ -75,14 +75,14 @@ public class Basic13 {
 		    // @formatter:on
 
 			//// @formatter:off
-		    promptBuilder.confirmPrompt("delivery")
+		    promptBuilder.confirmUI("delivery")
 		          .message(answers -> "Is this pizza for delivery? ABCD")
-		          .defaultValue(ConfirmChoice.ConfirmationValue.YES)
+		          .defaultValue(ConfirmUI.ConfirmationValue.YES)
 		          .when(answers -> answers.get("pizzatype").value().equals("Margherita"))
 		          .build();
 		    // @formatter:on
 
-			HashMap<String, ? extends Answer> result = prompt.prompt(promptBuilder.build());
+			HashMap<String, ? extends AnswerUI> result = prompt.prompt(promptBuilder.build());
 			System.out.println("result = " + result);
 
 		

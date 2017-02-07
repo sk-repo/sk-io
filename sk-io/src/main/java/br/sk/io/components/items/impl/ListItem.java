@@ -1,6 +1,6 @@
-package br.sk.io.elements.items.impl;
+package br.sk.io.components.items.impl;
 
-import br.sk.io.elements.items.ListItemIF;
+import br.sk.io.components.items.ListItemIF;
 
 public class ListItem implements ListItemIF {
 	String text;

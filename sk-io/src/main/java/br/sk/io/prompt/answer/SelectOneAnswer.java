@@ -2,9 +2,9 @@ package br.sk.io.prompt.answer;
 
 import java.util.HashSet;
 
-import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
+import br.sk.io.components.ConfirmUI.ConfirmationValue;
 
-public class ListAnswer implements Answer {
+public class SelectOneAnswer implements AnswerUI {
 
 	String selectedId;
 
@@ -23,7 +23,7 @@ public class ListAnswer implements Answer {
 	 * @param selectedId
 	 *            id of selected item.
 	 */
-	public ListAnswer(String selectedId) {
+	public SelectOneAnswer(String selectedId) {
 		this.selectedId = selectedId;
 	}
 

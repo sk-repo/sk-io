@@ -9,21 +9,21 @@ import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.sk.io.elements.Checkbox;
-import br.sk.io.elements.items.CheckboxItemIF;
-import br.sk.io.elements.items.impl.CheckboxItem;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.components.SelectManyUI;
+import br.sk.io.components.items.CheckboxItemIF;
+import br.sk.io.components.items.impl.CheckboxItem;
+import br.sk.io.prompt.answer.AnswerUI;
 
-public class CheckboxPromptBuilder {
+public class SelectManyUIPromptBuilder {
 	private final PromptBuilder promptBuilder;
 	private String name;
 	private String message;
 	private List<CheckboxItemIF> itemList;
-	private Function<Map<String, Answer>, String> fnMessage;
-	private Function<Map<String, Answer>, Set<String>> fnChoices;
-	private Function<Map<String, Answer>, Boolean> fnWhen;
+	private Function<Map<String, AnswerUI>, String> fnMessage;
+	private Function<Map<String, AnswerUI>, Set<String>> fnChoices;
+	private Function<Map<String, AnswerUI>, Boolean> fnWhen;
 
-	public CheckboxPromptBuilder(PromptBuilder promptBuilder, String name) {
+	public SelectManyUIPromptBuilder(PromptBuilder promptBuilder, String name) {
 		this.promptBuilder = promptBuilder;
 		itemList = new ArrayList<CheckboxItemIF>();
 		this.name = name;
@@ -33,7 +33,7 @@ public class CheckboxPromptBuilder {
 		itemList.add(checkboxItem);
 	}
 
-	public CheckboxPromptBuilder message(String message) {
+	public SelectManyUIPromptBuilder message(String message) {
 		this.message = message;
 		if (name == null) {
 			name = message;
@@ -41,7 +41,7 @@ public class CheckboxPromptBuilder {
 		return this;
 	}
 
-	public CheckboxPromptBuilder message(Function<Map<String, Answer>, String> fnMessage) {
+	public SelectManyUIPromptBuilder message(Function<Map<String, AnswerUI>, String> fnMessage) {
 		this.fnMessage = fnMessage;
 		if (name == null) {
 			name = message;
@@ -49,12 +49,12 @@ public class CheckboxPromptBuilder {
 		return this;
 	}
 
-	public CheckboxPromptBuilder when(Function<Map<String, Answer>, Boolean> when) {
+	public SelectManyUIPromptBuilder when(Function<Map<String, AnswerUI>, Boolean> when) {
 		this.fnWhen = when;
 		return this;
 	}
 
-	public CheckboxPromptBuilder choices(String... choices) {
+	public SelectManyUIPromptBuilder choices(String... choices) {
 	//// @formatter:off
 			Arrays.asList(choices).stream()
 				.filter(StringUtils::isNotBlank)
@@ -63,13 +63,13 @@ public class CheckboxPromptBuilder {
 		return this;
 	}
 
-	public CheckboxPromptBuilder choices(Function<Map<String, Answer>, Set<String>> fnChoices) {
+	public SelectManyUIPromptBuilder choices(Function<Map<String, AnswerUI>, Set<String>> fnChoices) {
 		this.fnChoices = fnChoices;
 		return this;
 	}
 
 	public PromptBuilder build() {
-		Checkbox checkbox = new Checkbox(message, name, itemList);
+		SelectManyUI checkbox = new SelectManyUI(message, name, itemList);
 		if (fnMessage != null) {
 			checkbox.setFnMessage(fnMessage);
 		}

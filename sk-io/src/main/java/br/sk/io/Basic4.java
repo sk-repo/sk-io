@@ -8,7 +8,7 @@ import java.util.HashMap;
 import org.fusesource.jansi.AnsiConsole;
 
 import br.sk.io.prompt.ConsolePrompt;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.prompt.answer.AnswerUI;
 import br.sk.io.prompt.builder.PromptBuilder;
 import jline.TerminalFactory;
 
@@ -28,7 +28,7 @@ public class Basic4 {
 			PromptBuilder promptBuilder = prompt.getPromptBuilder();
 
 			//// @formatter:off
-			promptBuilder.inputPrompt("name")
+			promptBuilder.inputUI("name")
 	              .message(anwer -> "Digite o nome")
 	              //.mask('*')
 	              .choices("Jim", "Jack", "John")
@@ -36,20 +36,20 @@ public class Basic4 {
 			// @formatter:on
 
 			//// @formatter:off
-		    promptBuilder.listPrompt("pizzatype")
+		    promptBuilder.selectOneUI("pizzatype")
 	              .message(anwers -> "Escolha a pizza "+anwers.get("name").value())
 	              .choices("Margherita", "Veneziana", "Hawai", "Quattro Stagioni")
 	              .build();
 		    // @formatter:on
 
 			//// @formatter:off
-            promptBuilder.checkboxPrompt("topping")
+            promptBuilder.selectManyUI("topping")
 	              .message("Please select additional toppings:")
 	              .choices("Cheese", "Bacon", "Açai")
 	              .build();
 	         // @formatter:on
 
-			HashMap<String, ? extends Answer> result = prompt.prompt(promptBuilder.build());
+			HashMap<String, ? extends AnswerUI> result = prompt.prompt(promptBuilder.build());
 			System.out.println("result = " + result);
 
 		} catch (IOException e) {

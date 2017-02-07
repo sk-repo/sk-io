@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import br.sk.io.elements.Checkbox;
-import br.sk.io.elements.ConfirmChoice;
-import br.sk.io.elements.InputValue;
-import br.sk.io.elements.ListChoice;
-import br.sk.io.elements.PromptableElementIF;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.CheckboxAnswer;
-import br.sk.io.prompt.answer.ConfirmAnswer;
-import br.sk.io.prompt.answer.InputAnswer;
-import br.sk.io.prompt.answer.ListAnswer;
+import br.sk.io.components.ConfirmUI;
+import br.sk.io.components.InputUI;
+import br.sk.io.components.PromptableUI;
+import br.sk.io.components.SelectManyUI;
+import br.sk.io.components.SelectOneUI;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.SelectManyUIAnswer;
+import br.sk.io.prompt.answer.ConfirmUIAnswer;
+import br.sk.io.prompt.answer.InputUIAnswer;
+import br.sk.io.prompt.answer.SelectOneAnswer;
 import br.sk.io.prompt.builder.PromptBuilder;
 
 /**
@@ -24,45 +24,45 @@ import br.sk.io.prompt.builder.PromptBuilder;
  */
 public class ConsolePrompt {
 	// input prompt implementation
-	private InputPrompt inputPrompt;
+	private InputUIPrompt inputPrompt;
 
 	// checkbox prompt implementation
-	private CheckboxPrompt checkboxPrompt;
+	private SelectManyUIPrompt checkboxPrompt;
 
 	// list box prompt implementation
-	private ListPrompt listPrompt;
+	private SelectOneUIPrompt listPrompt;
 
 	// confirmation prompt implementation
-	private ConfirmPrompt confirmPrompt;
+	private ConfirmUIPrompt confirmPrompt;
 
 	/* Lazy getter for input prompt */
-	private InputPrompt getInputPrompt() throws IOException {
+	private InputUIPrompt getInputPrompt() throws IOException {
 		if (inputPrompt == null) {
-			inputPrompt = new InputPrompt();
+			inputPrompt = new InputUIPrompt();
 		}
 		return inputPrompt;
 	}
 
 	/* Lazy getter for checkbox prompt */
-	private CheckboxPrompt getCheckboxPrompt() throws IOException {
+	private SelectManyUIPrompt getCheckboxPrompt() throws IOException {
 		if (checkboxPrompt == null) {
-			checkboxPrompt = new CheckboxPrompt();
+			checkboxPrompt = new SelectManyUIPrompt();
 		}
 		return checkboxPrompt;
 	}
 
 	/* Lazy getter for list prompt */
-	private ListPrompt getListPrompt() throws IOException {
+	private SelectOneUIPrompt getListPrompt() throws IOException {
 		if (listPrompt == null) {
-			listPrompt = new ListPrompt();
+			listPrompt = new SelectOneUIPrompt();
 		}
 		return listPrompt;
 	}
 
 	/* Lazy getter for confirm prompt */
-	private ConfirmPrompt getConfirmPrompt() throws IOException {
+	private ConfirmUIPrompt getConfirmPrompt() throws IOException {
 		if (confirmPrompt == null) {
-			confirmPrompt = new ConfirmPrompt();
+			confirmPrompt = new ConfirmUIPrompt();
 		}
 		return confirmPrompt;
 	}
@@ -78,7 +78,7 @@ public class ConsolePrompt {
 	 * promptable elements, typically created with {@link PromptBuilder}. Each
 	 * of the elements is processed and the user entries and answers are filled
 	 * in to the result map. The result map contains the key of each promtable
-	 * element and the user entry as an object implementing {@link Answer}.
+	 * element and the user entry as an object implementing {@link AnswerUI}.
 	 *
 	 * @param promptableElementList
 	 *            the list of questions / promts to ask the user for.
@@ -87,18 +87,18 @@ public class ConsolePrompt {
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	public HashMap<String, ? extends Answer> prompt(List<PromptableElementIF> promptableElementList) throws IOException {
-		HashMap<String, Answer> answers = new HashMap<String, Answer>();
+	public HashMap<String, ? extends AnswerUI> prompt(List<PromptableUI> promptableElementList) throws IOException {
+		HashMap<String, AnswerUI> answers = new HashMap<String, AnswerUI>();
 
 		for (int i = 0; i < promptableElementList.size(); i++) {
-			PromptableElementIF promptableElement = promptableElementList.get(i);
-			if (promptableElement instanceof ListChoice) {
+			PromptableUI promptableElement = promptableElementList.get(i);
+			if (promptableElement instanceof SelectOneUI) {
 				doListPrompt(answers, promptableElement);
-			} else if (promptableElement instanceof InputValue) {
+			} else if (promptableElement instanceof InputUI) {
 				doInputPrompt(answers, promptableElement);
-			} else if (promptableElement instanceof Checkbox) {
+			} else if (promptableElement instanceof SelectManyUI) {
 				doCheckboxPrompt(answers, promptableElement);
-			} else if (promptableElement instanceof ConfirmChoice) {
+			} else if (promptableElement instanceof ConfirmUI) {
 				doConfirmChoicePrompt(answers, promptableElement);
 			} else {
 				throw new IllegalArgumentException("wrong type of promptable element");
@@ -107,107 +107,107 @@ public class ConsolePrompt {
 		return answers;
 	}
 
-	private void doInputPrompt(HashMap<String, Answer> answers, PromptableElementIF promptableElement) throws IOException {
-		InputValue inputValue = (InputValue) promptableElement;
+	private void doInputPrompt(HashMap<String, AnswerUI> answers, PromptableUI promptableElement) throws IOException {
+		InputUI inputValue = (InputUI) promptableElement;
 		if (inputValue.getFnWhen() != null) {
 			if (inputValue.getFnWhen().apply(answers)) {
-				InputAnswer result = doPrompt(inputValue, answers);
+				InputUIAnswer result = doPrompt(inputValue, answers);
 				answers.put(promptableElement.getName(), result);
 			}
 		} else {
-			InputAnswer result = doPrompt(inputValue, answers);
+			InputUIAnswer result = doPrompt(inputValue, answers);
 			answers.put(promptableElement.getName(), result);
 		}
 	}
 
-	private void doListPrompt(HashMap<String, Answer> answers, PromptableElementIF promptableElement) throws IOException {
-		ListChoice listChoice = (ListChoice) promptableElement;
+	private void doListPrompt(HashMap<String, AnswerUI> answers, PromptableUI promptableElement) throws IOException {
+		SelectOneUI listChoice = (SelectOneUI) promptableElement;
 		if (listChoice.getFnWhen() != null) {
 			if (listChoice.getFnWhen().apply(answers)) {
-				ListAnswer result = doPrompt(listChoice, answers);
+				SelectOneAnswer result = doPrompt(listChoice, answers);
 				answers.put(promptableElement.getName(), result);
 			}
 		} else {
-			ListAnswer result = doPrompt(listChoice, answers);
+			SelectOneAnswer result = doPrompt(listChoice, answers);
 			answers.put(promptableElement.getName(), result);
 		}
 	}
 
-	private void doCheckboxPrompt(HashMap<String, Answer> answers, PromptableElementIF promptableElement) throws IOException {
-		Checkbox checkbox = (Checkbox) promptableElement;
+	private void doCheckboxPrompt(HashMap<String, AnswerUI> answers, PromptableUI promptableElement) throws IOException {
+		SelectManyUI checkbox = (SelectManyUI) promptableElement;
 		if (checkbox.getFnWhen() != null) {
 			if (checkbox.getFnWhen().apply(answers)) {
-				CheckboxAnswer result = doPrompt(checkbox, answers);
+				SelectManyUIAnswer result = doPrompt(checkbox, answers);
 				answers.put(promptableElement.getName(), result);
 			}
 		} else {
-			CheckboxAnswer result = doPrompt(checkbox, answers);
+			SelectManyUIAnswer result = doPrompt(checkbox, answers);
 			answers.put(promptableElement.getName(), result);
 		}
 	}
 
-	private void doConfirmChoicePrompt(HashMap<String, Answer> answers, PromptableElementIF promptableElement) throws IOException {
-		ConfirmChoice confirmChoice = (ConfirmChoice) promptableElement;
+	private void doConfirmChoicePrompt(HashMap<String, AnswerUI> answers, PromptableUI promptableElement) throws IOException {
+		ConfirmUI confirmChoice = (ConfirmUI) promptableElement;
 		if (confirmChoice.getFnWhen() != null) {
 			if (confirmChoice.getFnWhen().apply(answers)) {
-				ConfirmAnswer result = doPrompt(confirmChoice, answers);
+				ConfirmUIAnswer result = doPrompt(confirmChoice, answers);
 				answers.put(promptableElement.getName(), result);
 			}
 		} else {
-			ConfirmAnswer result = doPrompt(confirmChoice, answers);
+			ConfirmUIAnswer result = doPrompt(confirmChoice, answers);
 			answers.put(promptableElement.getName(), result);
 		}
 	}
 
 	/**
-	 * Process a {@link ConfirmChoice}.
+	 * Process a {@link ConfirmUI}.
 	 *
 	 * @param confirmChoice
 	 *            the confirmation to ask the user for.
-	 * @return Object of type {@link ConfirmAnswer} holding the users answer
+	 * @return Object of type {@link ConfirmUIAnswer} holding the users answer
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	private ConfirmAnswer doPrompt(ConfirmChoice confirmChoice, HashMap<String, Answer> answers) throws IOException {
+	private ConfirmUIAnswer doPrompt(ConfirmUI confirmChoice, HashMap<String, AnswerUI> answers) throws IOException {
 		return getConfirmPrompt().prompt(confirmChoice, answers);
 	}
 
 	/**
-	 * Process a {@link ListChoice}.
+	 * Process a {@link SelectOneUI}.
 	 *
 	 * @param listChoice
 	 *            the list to let the user choose an item from.
-	 * @return Object of type {@link ListAnswer} holding the uses choice.
+	 * @return Object of type {@link SelectOneAnswer} holding the uses choice.
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	private ListAnswer doPrompt(ListChoice listChoice, HashMap<String, Answer> answers) throws IOException {
+	private SelectOneAnswer doPrompt(SelectOneUI listChoice, HashMap<String, AnswerUI> answers) throws IOException {
 		return getListPrompt().prompt(listChoice, answers);
 	}
 
 	/**
-	 * Process a {@link InputValue}.
+	 * Process a {@link InputUI}.
 	 *
 	 * @param inputValue
 	 *            the input value to ask the user for.
-	 * @return Object of type {@link InputAnswer} holding the uses input.
+	 * @return Object of type {@link InputUIAnswer} holding the uses input.
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	private InputAnswer doPrompt(InputValue inputValue, HashMap<String, Answer> answers) throws IOException {
+	private InputUIAnswer doPrompt(InputUI inputValue, HashMap<String, AnswerUI> answers) throws IOException {
 		return getInputPrompt().prompt(inputValue, answers);
 	}
 
 	/**
-	 * Process a {@link Checkbox}.
+	 * Process a {@link SelectManyUI}.
 	 *
 	 * @param checkbox
 	 *            the checkbox displayed where the user can check values.
-	 * @return Object of type {@link CheckboxAnswer} holding the uses choice.
+	 * @return Object of type {@link SelectManyUIAnswer} holding the uses choice.
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	private CheckboxAnswer doPrompt(Checkbox checkbox, HashMap<String, Answer> answers) throws IOException {
+	private SelectManyUIAnswer doPrompt(SelectManyUI checkbox, HashMap<String, AnswerUI> answers) throws IOException {
 		return getCheckboxPrompt().prompt(checkbox, answers);
 	}
 

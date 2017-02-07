@@ -1,4 +1,4 @@
-package br.sk.io.elements.items;
+package br.sk.io.components.items;
 
 public interface ListItemIF extends ConsoleUIItemIF {
 }

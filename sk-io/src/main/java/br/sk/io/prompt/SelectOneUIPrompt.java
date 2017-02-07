@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.sk.io.elements.ListChoice;
-import br.sk.io.elements.items.ConsoleUIItemIF;
-import br.sk.io.elements.items.ListItemIF;
-import br.sk.io.elements.items.impl.ListItem;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.ListAnswer;
+import br.sk.io.components.SelectOneUI;
+import br.sk.io.components.items.ConsoleUIItemIF;
+import br.sk.io.components.items.ListItemIF;
+import br.sk.io.components.items.impl.ListItem;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.SelectOneAnswer;
 import br.sk.io.prompt.reader.ConsoleReaderImpl;
 import br.sk.io.prompt.reader.ReaderIF;
 import br.sk.io.prompt.renderer.CUIRenderer;
@@ -23,18 +23,18 @@ import br.sk.io.prompt.renderer.CUIRenderer;
  *
  * User: Andreas Wegmann Date: 01.01.16
  */
-public class ListPrompt extends AbstractListablePrompt implements PromptIF<ListChoice, ListAnswer> {
+public class SelectOneUIPrompt extends AbstractListablePrompt implements PromptIF<SelectOneUI, SelectOneAnswer> {
 	// the list to let the user choose from
-	private ListChoice listChoice;
+	private SelectOneUI listChoice;
 	private String message;
 
 	CUIRenderer itemRenderer = CUIRenderer.getRenderer();
 
-	public ListPrompt() throws IOException {
+	public SelectOneUIPrompt() throws IOException {
 		super();
 	}
 
-	public ListAnswer prompt(ListChoice listChoice, HashMap<String, Answer> answers) throws IOException {
+	public SelectOneAnswer prompt(SelectOneUI listChoice, HashMap<String, AnswerUI> answers) throws IOException {
 		this.listChoice = listChoice;
 		this.message = this.listChoice.getFnMessage() != null ? this.listChoice.getFnMessage().apply(answers)
 				: this.listChoice.getMessage();
@@ -81,7 +81,7 @@ public class ListPrompt extends AbstractListablePrompt implements PromptIF<ListC
 		}
 
 		ListItem listItem = (ListItem) itemList.get(selectedItemIndex);
-		ListAnswer selection = new ListAnswer(listItem.getName());
+		SelectOneAnswer selection = new SelectOneAnswer(listItem.getName());
 		renderMessagePromptAndResult(this.message, ((ListItem) itemList.get(selectedItemIndex)).getText());
 		return selection;
 	}

@@ -1,8 +1,8 @@
-package br.sk.io.elements.items.impl;
+package br.sk.io.components.items.impl;
 
-import br.sk.io.elements.items.CheckboxItemIF;
-import br.sk.io.elements.items.ChoiceItemIF;
-import br.sk.io.elements.items.ListItemIF;
+import br.sk.io.components.items.CheckboxItemIF;
+import br.sk.io.components.items.ChoiceItemIF;
+import br.sk.io.components.items.ListItemIF;
 
 public class Separator implements CheckboxItemIF, ListItemIF, ChoiceItemIF {
 	private String message;

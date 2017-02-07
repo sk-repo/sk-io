@@ -2,16 +2,16 @@ package br.sk.io.prompt.answer;
 
 import java.util.HashSet;
 
-import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
+import br.sk.io.components.ConfirmUI.ConfirmationValue;
 
 /**
  *
  * User: Andreas Wegmann Date: 03.02.16
  */
-public class InputAnswer implements Answer {
+public class InputUIAnswer implements AnswerUI {
 	private String input;
 
-	public InputAnswer(String input) {
+	public InputUIAnswer(String input) {
 		this.input = input;
 	}
 

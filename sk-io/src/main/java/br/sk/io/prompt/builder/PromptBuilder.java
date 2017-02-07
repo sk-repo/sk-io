@@ -3,7 +3,7 @@ package br.sk.io.prompt.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.sk.io.elements.PromptableElementIF;
+import br.sk.io.components.PromptableUI;
 
 /**
  * PromptBuilder is the builder class which creates
@@ -11,22 +11,22 @@ import br.sk.io.elements.PromptableElementIF;
  * Created by Andreas Wegmann on 20.01.16.
  */
 public class PromptBuilder {
-	List<PromptableElementIF> promptList = new ArrayList<PromptableElementIF>();
+	List<PromptableUI> promptList = new ArrayList<PromptableUI>();
 
-	public List<PromptableElementIF> build() {
+	public List<PromptableUI> build() {
 		return promptList;
 	}
 
-	public void addPrompt(PromptableElementIF promptableElement) {
+	public void addPrompt(PromptableUI promptableElement) {
 		promptList.add(promptableElement);
 	}
 
-	public InputPromptBuilder inputPrompt(String name) {
-		return new InputPromptBuilder(this, name);
+	public InputUIPromptBuilder inputUI(String name) {
+		return new InputUIPromptBuilder(this, name);
 	}
 
-	public ListChoicePromptBuilder listPrompt(String name) {
-		return new ListChoicePromptBuilder(this, name);
+	public SelectOneUIPromptBuilder selectOneUI(String name) {
+		return new SelectOneUIPromptBuilder(this, name);
 	}
 
 	/*
@@ -34,11 +34,11 @@ public class PromptBuilder {
 	 * ExpandableChoicePromptBuilder(this); }
 	 */
 
-	public CheckboxPromptBuilder checkboxPrompt(String name) {
-		return new CheckboxPromptBuilder(this, name);
+	public SelectManyUIPromptBuilder selectManyUI(String name) {
+		return new SelectManyUIPromptBuilder(this, name);
 	}
 
-	public ConfirmChoicePromptBuilder confirmPrompt(String name) {
-		return new ConfirmChoicePromptBuilder(this, name);
+	public ConfirmUIPromptBuilder confirmUI(String name) {
+		return new ConfirmUIPromptBuilder(this, name);
 	}
 }

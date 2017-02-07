@@ -6,13 +6,13 @@ import java.util.ResourceBundle;
 
 import org.fusesource.jansi.Ansi;
 
-import br.sk.io.elements.ConfirmChoice;
-import br.sk.io.elements.InputValue;
-import br.sk.io.elements.items.ConsoleUIItemIF;
-import br.sk.io.elements.items.impl.CheckboxItem;
-import br.sk.io.elements.items.impl.ChoiceItem;
-import br.sk.io.elements.items.impl.ListItem;
-import br.sk.io.elements.items.impl.Separator;
+import br.sk.io.components.ConfirmUI;
+import br.sk.io.components.InputUI;
+import br.sk.io.components.items.ConsoleUIItemIF;
+import br.sk.io.components.items.impl.CheckboxItem;
+import br.sk.io.components.items.impl.ChoiceItem;
+import br.sk.io.components.items.impl.ListItem;
+import br.sk.io.components.items.impl.Separator;
 
 /**
  * User: Andreas Wegmann
@@ -100,24 +100,24 @@ public class CUIRenderer {
     return "";
   }
 
-  public String renderOptionalDefaultValue(InputValue inputElement) {
+  public String renderOptionalDefaultValue(InputUI inputElement) {
     if (inputElement.getDefaultValue() != null) {
       return " (" + inputElement.getDefaultValue() + ") ";
     }
     return " ";
   }
 
-  public String renderValue(InputValue inputElement) {
+  public String renderValue(InputUI inputElement) {
     if (inputElement.getValue() != null) {
       return inputElement.getValue();
     }
     return "";
   }
 
-  public String renderConfirmChoiceOptions(ConfirmChoice confirmChoice) {
-    if (confirmChoice.getDefaultConfirmation() == ConfirmChoice.ConfirmationValue.YES) {
+  public String renderConfirmChoiceOptions(ConfirmUI confirmChoice) {
+    if (confirmChoice.getDefaultConfirmation() == ConfirmUI.ConfirmationValue.YES) {
       return resourceBundle.getString("confirmation_yes_default");
-    } else if (confirmChoice.getDefaultConfirmation() == ConfirmChoice.ConfirmationValue.NO) {
+    } else if (confirmChoice.getDefaultConfirmation() == ConfirmUI.ConfirmationValue.NO) {
       return resourceBundle.getString("confirmation_no_default");
     }
     return resourceBundle.getString("confirmation_without_default");

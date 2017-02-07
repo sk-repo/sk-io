@@ -10,7 +10,7 @@ import java.util.HashSet;
 import org.fusesource.jansi.AnsiConsole;
 
 import br.sk.io.prompt.ConsolePrompt;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.prompt.answer.AnswerUI;
 import br.sk.io.prompt.builder.PromptBuilder;
 import jline.TerminalFactory;
 
@@ -30,7 +30,7 @@ public class Basic7 {
 			PromptBuilder promptBuilder = prompt.getPromptBuilder();
 
 			//// @formatter:off
-			promptBuilder.inputPrompt("name")
+			promptBuilder.inputUI("name")
 	              .message(anwer -> "Digite o nome")
 	              //.mask('*')
 	              .choices("Jim", "Jack", "John")
@@ -38,20 +38,20 @@ public class Basic7 {
 			// @formatter:on
 
 			//// @formatter:off
-		    promptBuilder.listPrompt("pizzatype")
+		    promptBuilder.selectOneUI("pizzatype")
 	              .message(anwers -> "Escolha a pizza "+anwers.get("name").value())
 	              .choices("Cheese", "Bacon", "Açai")
  	              .build();
 		    // @formatter:on
 
 			//// @formatter:off
-            promptBuilder.checkboxPrompt("topping")
+            promptBuilder.selectManyUI("topping")
 	              .message(answers -> "Please select additional toppings: "+answers.get("pizzatype").value())
 	              .choices(answers -> new HashSet<>(Arrays.asList("A", "B", "C")))
 	              .build();
 	         // @formatter:on
 
-			HashMap<String, ? extends Answer> result = prompt.prompt(promptBuilder.build());
+			HashMap<String, ? extends AnswerUI> result = prompt.prompt(promptBuilder.build());
 			System.out.println("result = " + result);
 
 		} catch (IOException e) {

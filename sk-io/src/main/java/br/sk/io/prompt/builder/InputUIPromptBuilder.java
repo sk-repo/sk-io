@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import br.sk.io.elements.InputValue;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.components.InputUI;
+import br.sk.io.prompt.answer.AnswerUI;
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 
-public class InputPromptBuilder {
+public class InputUIPromptBuilder {
 	private final PromptBuilder promptBuilder;
 	private String name;
 	private String defaultValue;
@@ -18,36 +18,36 @@ public class InputPromptBuilder {
 	private Character mask;
 	private ArrayList<Completer> completers;
 	private Consumer<String> validator;
-	private Function<Map<String, Answer>, String> fnMessage;
+	private Function<Map<String, AnswerUI>, String> fnMessage;
 	private Boolean required;
-	private Function<Map<String, Answer>, Boolean> fnWhen;
+	private Function<Map<String, AnswerUI>, Boolean> fnWhen;
 
-	public InputPromptBuilder(PromptBuilder promptBuilder, String name) {
+	public InputUIPromptBuilder(PromptBuilder promptBuilder, String name) {
 		this.promptBuilder = promptBuilder;
 		this.name = name;
 	}
 
-	public InputPromptBuilder defaultValue(String defaultValue) {
+	public InputUIPromptBuilder defaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 		return this;
 	}
 
-	public InputPromptBuilder message(String message) {
+	public InputUIPromptBuilder message(String message) {
 		this.message = message;
 		return this;
 	}
 
-	public InputPromptBuilder message(Function<Map<String, Answer>, String> message) {
+	public InputUIPromptBuilder message(Function<Map<String, AnswerUI>, String> message) {
 		this.fnMessage = message;
 		return this;
 	}
 
-	public InputPromptBuilder when(Function<Map<String, Answer>, Boolean> when) {
+	public InputUIPromptBuilder when(Function<Map<String, AnswerUI>, Boolean> when) {
 		this.fnWhen = when;
 		return this;
 	}
 
-	public InputPromptBuilder choices(String... completer) {
+	public InputUIPromptBuilder choices(String... completer) {
 		if (completers == null) {
 			completers = new ArrayList<Completer>();
 		}
@@ -55,23 +55,23 @@ public class InputPromptBuilder {
 		return this;
 	}
 
-	public InputPromptBuilder mask(char mask) {
+	public InputUIPromptBuilder mask(char mask) {
 		this.mask = mask;
 		return this;
 	}
 
-	public InputPromptBuilder required() {
+	public InputUIPromptBuilder required() {
 		this.required = true;
 		return this;
 	}
 
-	public InputPromptBuilder validate(Consumer<String> validator) {
+	public InputUIPromptBuilder validate(Consumer<String> validator) {
 		this.validator = validator;
 		return this;
 	}
 
 	public PromptBuilder build() {
-		InputValue inputValue = new InputValue(name, message, null, defaultValue);
+		InputUI inputValue = new InputUI(name, message, null, defaultValue);
 		if (fnMessage != null) {
 			inputValue.setFnMessage(fnMessage);
 		}

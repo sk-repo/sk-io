@@ -1,4 +1,4 @@
-package br.sk.io.elements;
+package br.sk.io.components;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,25 +6,25 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.prompt.answer.AnswerUI;
 import jline.console.completer.Completer;
 
-public class InputValue extends AbstractPromptableElement {
+public class InputUI extends AbstractPromptableUI {
 	private String value;
 	private String defaultValue;
 	private List<Completer> completer;
 	private Character mask;
 	private Consumer<String> validator;
 	private Boolean required;
-	private Function<Map<String, Answer>, Boolean> fnWhen;
+	private Function<Map<String, AnswerUI>, Boolean> fnWhen;
 
-	public InputValue(String name, String message) {
+	public InputUI(String name, String message) {
 		super(message, name);
 		this.value = null;
 		this.defaultValue = null;
 	}
 
-	public InputValue(String name, String message, String value, String defaultValue) {
+	public InputUI(String name, String message, String value, String defaultValue) {
 		super(message, name);
 		// this.value = value;
 		if (value != null)
@@ -79,11 +79,11 @@ public class InputValue extends AbstractPromptableElement {
 		this.required = required;
 	}
 
-	public Function<Map<String, Answer>, Boolean> getFnWhen() {
+	public Function<Map<String, AnswerUI>, Boolean> getFnWhen() {
 		return fnWhen;
 	}
 
-	public void setFnWhen(Function<Map<String, Answer>, Boolean> fnWhen) {
+	public void setFnWhen(Function<Map<String, AnswerUI>, Boolean> fnWhen) {
 		this.fnWhen = fnWhen;
 	}
 

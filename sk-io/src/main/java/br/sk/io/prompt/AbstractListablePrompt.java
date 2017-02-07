@@ -3,7 +3,7 @@ package br.sk.io.prompt;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import br.sk.io.elements.items.ConsoleUIItemIF;
+import br.sk.io.components.items.ConsoleUIItemIF;
 
 /**
  * Abstract base class for all listable prompts (checkbox, list and expandable

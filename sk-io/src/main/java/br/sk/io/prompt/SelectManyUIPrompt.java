@@ -9,21 +9,21 @@ import java.util.stream.Collectors;
 
 import org.fusesource.jansi.Ansi;
 
-import br.sk.io.elements.Checkbox;
-import br.sk.io.elements.items.ConsoleUIItemIF;
-import br.sk.io.elements.items.impl.CheckboxItem;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.CheckboxAnswer;
+import br.sk.io.components.SelectManyUI;
+import br.sk.io.components.items.ConsoleUIItemIF;
+import br.sk.io.components.items.impl.CheckboxItem;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.SelectManyUIAnswer;
 import br.sk.io.prompt.reader.ReaderIF;
 import br.sk.io.prompt.renderer.CUIRenderer;
 
 /**
  * CheckboxPrompt implements the checkbox choice handling.
  */
-public class CheckboxPrompt extends AbstractListablePrompt implements PromptIF<Checkbox, CheckboxAnswer> {
+public class SelectManyUIPrompt extends AbstractListablePrompt implements PromptIF<SelectManyUI, SelectManyUIAnswer> {
 
 	// checkbox object to prompt the user for.
-	private Checkbox checkbox;
+	private SelectManyUI checkbox;
 	
 	private String message;
 
@@ -38,7 +38,7 @@ public class CheckboxPrompt extends AbstractListablePrompt implements PromptIF<C
 	 * @throws IOException
 	 *             may be thrown by super class
 	 */
-	public CheckboxPrompt() throws IOException {
+	public SelectManyUIPrompt() throws IOException {
 		super();
 	}
 
@@ -66,12 +66,12 @@ public class CheckboxPrompt extends AbstractListablePrompt implements PromptIF<C
 	 *
 	 * @param checkbox
 	 *            checkbox with items to choose from.
-	 * @return {@link CheckboxAnswer} which holds the users choices.
+	 * @return {@link SelectManyUIAnswer} which holds the users choices.
 	 *
 	 * @throws IOException
 	 *             may be thrown by console reader
 	 */
-	public CheckboxAnswer prompt(Checkbox checkbox, HashMap<String, Answer> answers) throws IOException {
+	public SelectManyUIAnswer prompt(SelectManyUI checkbox, HashMap<String, AnswerUI> answers) throws IOException {
 		this.checkbox = checkbox;
 		
 		this.message = this.checkbox.getFnMessage() != null ? this.checkbox.getFnMessage().apply(answers)
@@ -127,7 +127,7 @@ public class CheckboxPrompt extends AbstractListablePrompt implements PromptIF<C
 			}
 		}
 		renderMessagePromptAndResult(this.message, selections.toString());
-		return new CheckboxAnswer(selections);
+		return new SelectManyUIAnswer(selections);
 	}
 
 	/**

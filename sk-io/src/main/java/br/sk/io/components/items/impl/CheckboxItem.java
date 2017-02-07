@@ -1,6 +1,6 @@
-package br.sk.io.elements.items.impl;
+package br.sk.io.components.items.impl;
 
-import br.sk.io.elements.items.CheckboxItemIF;
+import br.sk.io.components.items.CheckboxItemIF;
 
 public class CheckboxItem implements CheckboxItemIF {
 	boolean checked;

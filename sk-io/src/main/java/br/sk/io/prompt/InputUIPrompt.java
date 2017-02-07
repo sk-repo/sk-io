@@ -10,10 +10,10 @@ import java.util.function.Consumer;
 import org.apache.commons.lang3.StringUtils;
 import org.fusesource.jansi.Ansi.Color;
 
-import br.sk.io.elements.InputValue;
+import br.sk.io.components.InputUI;
 import br.sk.io.exception.InvalidInputException;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.InputAnswer;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.InputUIAnswer;
 import br.sk.io.prompt.reader.ConsoleReaderImpl;
 import br.sk.io.prompt.reader.ReaderIF;
 import br.sk.io.prompt.renderer.CUIRenderer;
@@ -29,9 +29,9 @@ import jline.console.completer.Completer;
  * <p>
  * Date: 06.01.16
  */
-public class InputPrompt extends AbstractPrompt implements PromptIF<InputValue, InputAnswer> {
+public class InputUIPrompt extends AbstractPrompt implements PromptIF<InputUI, InputUIAnswer> {
 
-	private InputValue inputElement;
+	private InputUI inputElement;
 	private ReaderIF reader;
 	CUIRenderer itemRenderer = CUIRenderer.getRenderer();
 	private boolean invalidInput = false;
@@ -42,10 +42,10 @@ public class InputPrompt extends AbstractPrompt implements PromptIF<InputValue, 
 	private String prompt;
 	private String message;
 
-	public InputPrompt() throws IOException {
+	public InputUIPrompt() throws IOException {
 	}
 
-	public InputAnswer prompt(InputValue inputElement, HashMap<String, Answer> answers) throws IOException {
+	public InputUIAnswer prompt(InputUI inputElement, HashMap<String, AnswerUI> answers) throws IOException {
 		this.inputElement = inputElement;
 		this.message = this.inputElement.getFnMessage() != null ? this.inputElement.getFnMessage().apply(answers)
 				: this.inputElement.getMessage();
@@ -83,7 +83,7 @@ public class InputPrompt extends AbstractPrompt implements PromptIF<InputValue, 
 
 		renderMessagePromptAndResult(this.message, result);
 
-		return new InputAnswer(lineInput);
+		return new InputUIAnswer(lineInput);
 	}
 
 	private void prompt() {
@@ -91,20 +91,20 @@ public class InputPrompt extends AbstractPrompt implements PromptIF<InputValue, 
 		this.prompt = renderMessagePrompt(this.message, invalidInput) + optionalDefaultValue;
 	}
 
-	private void read(InputValue inputElement, String prompt, List<Completer> completer, Character mask) throws IOException {
+	private void read(InputUI inputElement, String prompt, List<Completer> completer, Character mask) throws IOException {
 		this.reader = new ConsoleReaderImpl();
 		this.readerInput = reader.readLine(completer, prompt, inputElement.getValue(), mask);
 		this.lineInput = readerInput.getLineInput();
 		setupDefaultValue(inputElement);
 	}
 
-	private void setupDefaultValue(InputValue inputElement) {
+	private void setupDefaultValue(InputUI inputElement) {
 		if (lineInput == null || lineInput.trim().length() == 0) {
 			lineInput = inputElement.getDefaultValue();
 		}
 	}
 
-	private void validateInput(InputValue inputElement, String lineInput, ReaderIF.ReaderInput readerInput) throws IOException {
+	private void validateInput(InputUI inputElement, String lineInput, ReaderIF.ReaderInput readerInput) throws IOException {
 		Consumer<String> validator = inputElement.getValidator();
 		invalidInput = false;
 		if (validator != null) {

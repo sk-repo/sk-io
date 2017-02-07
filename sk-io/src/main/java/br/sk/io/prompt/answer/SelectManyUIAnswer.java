@@ -2,7 +2,7 @@ package br.sk.io.prompt.answer;
 
 import java.util.HashSet;
 
-import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
+import br.sk.io.components.ConfirmUI.ConfirmationValue;
 
 /**
  * Result of a checkbox choice. CheckboxResult contains a {@link java.util.Set}
@@ -10,7 +10,7 @@ import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
  * <p>
  * User: Andreas Wegmann Date: 03.02.16
  */
-public class CheckboxAnswer implements Answer {
+public class SelectManyUIAnswer implements AnswerUI {
 	HashSet<String> selectedIds;
 
 	/**
@@ -19,7 +19,7 @@ public class CheckboxAnswer implements Answer {
 	 * @param selectedIds
 	 *            Selected IDs.
 	 */
-	public CheckboxAnswer(HashSet<String> selectedIds) {
+	public SelectManyUIAnswer(HashSet<String> selectedIds) {
 		this.selectedIds = selectedIds;
 	}
 

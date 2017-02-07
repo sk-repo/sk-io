@@ -9,29 +9,29 @@ import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.sk.io.elements.ListChoice;
-import br.sk.io.elements.items.ListItemIF;
-import br.sk.io.elements.items.impl.ListItem;
-import br.sk.io.prompt.answer.Answer;
+import br.sk.io.components.SelectOneUI;
+import br.sk.io.components.items.ListItemIF;
+import br.sk.io.components.items.impl.ListItem;
+import br.sk.io.prompt.answer.AnswerUI;
 
 /**
  * Created by andy on 22.01.16.
  */
-public class ListChoicePromptBuilder {
+public class SelectOneUIPromptBuilder {
 	private final PromptBuilder promptBuilder;
 	private String name;
 	private String message;
 	private List<ListItemIF> itemList = new ArrayList<ListItemIF>();
-	private Function<Map<String, Answer>, String> fnMessage;
-	private Function<Map<String, Answer>, Set<String>> fnChoices;
-	private Function<Map<String, Answer>, Boolean> fnWhen;
+	private Function<Map<String, AnswerUI>, String> fnMessage;
+	private Function<Map<String, AnswerUI>, Set<String>> fnChoices;
+	private Function<Map<String, AnswerUI>, Boolean> fnWhen;
 
-	public ListChoicePromptBuilder(PromptBuilder promptBuilder, String name) {
+	public SelectOneUIPromptBuilder(PromptBuilder promptBuilder, String name) {
 		this.promptBuilder = promptBuilder;
 		this.name = name;
 	}
 
-	public ListChoicePromptBuilder message(String message) {
+	public SelectOneUIPromptBuilder message(String message) {
 		this.message = message;
 		if (name == null) {
 			name = message;
@@ -39,7 +39,7 @@ public class ListChoicePromptBuilder {
 		return this;
 	}
 
-	public ListChoicePromptBuilder message(Function<Map<String, Answer>, String> fnMessage) {
+	public SelectOneUIPromptBuilder message(Function<Map<String, AnswerUI>, String> fnMessage) {
 		this.fnMessage = fnMessage;
 		if (name == null) {
 			name = message;
@@ -47,12 +47,12 @@ public class ListChoicePromptBuilder {
 		return this;
 	}
 
-	public ListChoicePromptBuilder when(Function<Map<String, Answer>, Boolean> when) {
+	public SelectOneUIPromptBuilder when(Function<Map<String, AnswerUI>, Boolean> when) {
 		this.fnWhen = when;
 		return this;
 	}
 
-	public ListChoicePromptBuilder choices(String... choices) {
+	public SelectOneUIPromptBuilder choices(String... choices) {
 		//// @formatter:off
 		Arrays.asList(choices).stream()
 			.filter(StringUtils::isNotBlank)
@@ -61,13 +61,13 @@ public class ListChoicePromptBuilder {
 		return this;
 	}
 
-	public ListChoicePromptBuilder choices(Function<Map<String, Answer>, Set<String>> fnChoices) {
+	public SelectOneUIPromptBuilder choices(Function<Map<String, AnswerUI>, Set<String>> fnChoices) {
 		this.fnChoices = fnChoices;
 		return this;
 	}
 
 	public PromptBuilder build() {
-		ListChoice listChoice = new ListChoice(message, name, itemList);
+		SelectOneUI listChoice = new SelectOneUI(message, name, itemList);
 		if (fnMessage != null) {
 			listChoice.setFnMessage(fnMessage);
 		}

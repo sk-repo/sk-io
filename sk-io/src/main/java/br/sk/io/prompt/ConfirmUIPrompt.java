@@ -5,9 +5,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 import java.io.IOException;
 import java.util.HashMap;
 
-import br.sk.io.elements.ConfirmChoice;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.ConfirmAnswer;
+import br.sk.io.components.ConfirmUI;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.ConfirmUIAnswer;
 import br.sk.io.prompt.reader.ConsoleReaderImpl;
 import br.sk.io.prompt.reader.ReaderIF;
 import br.sk.io.prompt.renderer.CUIRenderer;
@@ -18,16 +18,16 @@ import br.sk.io.prompt.renderer.CUIRenderer;
  * <p>
  * User: Andreas Wegmann Date: 06.01.16
  */
-public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmChoice, ConfirmAnswer> {
+public class ConfirmUIPrompt extends AbstractPrompt implements PromptIF<ConfirmUI, ConfirmUIAnswer> {
 
 	private ReaderIF reader;
 	CUIRenderer itemRenderer = CUIRenderer.getRenderer();
-	private ConfirmChoice confirmChoice;
+	private ConfirmUI confirmChoice;
 	char yes_key;
 	char no_key;
 	String yes_answer;
 	String no_answer;
-	ConfirmChoice.ConfirmationValue givenAnswer;
+	ConfirmUI.ConfirmationValue givenAnswer;
 	private String message;
 
 	/**
@@ -37,7 +37,7 @@ public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmCho
 	 * @throws IOException
 	 *             can be thrown by base class construction.
 	 */
-	public ConfirmPrompt() throws IOException {
+	public ConfirmUIPrompt() throws IOException {
 		super();
 		yes_key = resourceBundle.getString("confirmation_yes_key").trim().charAt(0);
 		no_key = resourceBundle.getString("confirmation_no_key").trim().charAt(0);
@@ -50,11 +50,11 @@ public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmCho
 	 *
 	 * @param confirmChoice
 	 *            the question for the user.
-	 * @return {@link ConfirmAnswer} object with answer.
+	 * @return {@link ConfirmUIAnswer} object with answer.
 	 * @throws IOException
 	 *             can be thrown by the console reader.
 	 */
-	public ConfirmAnswer prompt(ConfirmChoice confirmChoice, HashMap<String, Answer> answers) throws IOException {
+	public ConfirmUIAnswer prompt(ConfirmUI confirmChoice, HashMap<String, AnswerUI> answers) throws IOException {
 		givenAnswer = null;
 		this.confirmChoice = confirmChoice;
 
@@ -89,9 +89,9 @@ public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmCho
 			}
 			if (readerInput.getSpecialKey() == ReaderIF.SpecialKey.PRINTABLE_KEY) {
 				if (readerInput.getPrintableKey().equals(yes_key)) {
-					givenAnswer = ConfirmChoice.ConfirmationValue.YES;
+					givenAnswer = ConfirmUI.ConfirmationValue.YES;
 				} else if (readerInput.getPrintableKey().equals(no_key)) {
-					givenAnswer = ConfirmChoice.ConfirmationValue.NO;
+					givenAnswer = ConfirmUI.ConfirmationValue.NO;
 				}
 			} else if (readerInput.getSpecialKey() == ReaderIF.SpecialKey.BACKSPACE) {
 				givenAnswer = null;
@@ -104,7 +104,7 @@ public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmCho
 		System.out.println();
 		renderMessagePromptAndResult(this.message, resultValue);
 
-		return new ConfirmAnswer(givenAnswer);
+		return new ConfirmUIAnswer(givenAnswer);
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class ConfirmPrompt extends AbstractPrompt implements PromptIF<ConfirmCho
 	 * @return localized answer string.
 	 */
 	private String calcResultValue() {
-		if (givenAnswer == ConfirmChoice.ConfirmationValue.YES) {
+		if (givenAnswer == ConfirmUI.ConfirmationValue.YES) {
 			return yes_answer;
-		} else if (givenAnswer == ConfirmChoice.ConfirmationValue.NO) {
+		} else if (givenAnswer == ConfirmUI.ConfirmationValue.NO) {
 			return no_answer;
 		}
 		return "";

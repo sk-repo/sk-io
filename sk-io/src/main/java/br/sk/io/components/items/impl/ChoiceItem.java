@@ -1,6 +1,6 @@
-package br.sk.io.elements.items.impl;
+package br.sk.io.components.items.impl;
 
-import br.sk.io.elements.items.ChoiceItemIF;
+import br.sk.io.components.items.ChoiceItemIF;
 
 public class ChoiceItem implements ChoiceItemIF {
 	private Character key;

@@ -2,12 +2,12 @@ package br.sk.io.prompt.answer;
 
 import java.util.HashSet;
 
-import br.sk.io.elements.ConfirmChoice.ConfirmationValue;
+import br.sk.io.components.ConfirmUI.ConfirmationValue;
 
 /**
  * Created by Andreas Wegmann on 03.02.16.
  */
-public interface Answer {
+public interface AnswerUI {
 
 	public String value();
 

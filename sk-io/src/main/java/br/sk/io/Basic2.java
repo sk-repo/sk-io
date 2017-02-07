@@ -7,10 +7,10 @@ import java.util.HashMap;
 
 import org.fusesource.jansi.AnsiConsole;
 
-import br.sk.io.elements.ConfirmChoice;
+import br.sk.io.components.ConfirmUI;
 import br.sk.io.prompt.ConsolePrompt;
-import br.sk.io.prompt.answer.Answer;
-import br.sk.io.prompt.answer.ConfirmAnswer;
+import br.sk.io.prompt.answer.AnswerUI;
+import br.sk.io.prompt.answer.ConfirmUIAnswer;
 import br.sk.io.prompt.builder.PromptBuilder;
 import jline.TerminalFactory;
 
@@ -30,14 +30,14 @@ public class Basic2 {
 			PromptBuilder promptBuilder = prompt.getPromptBuilder();
 
 			//// @formatter:off
-			promptBuilder.listPrompt("pizzatype")
+			promptBuilder.selectOneUI("pizzatype")
 				.message("Escolha a pizza ")
 				.choices("Margherita", "Veneziana", "Hawai", "Quattro Stagioni")
 			.build();
 			// @formatter:on
 
 			//// @formatter:off
-			promptBuilder.inputPrompt("name")
+			promptBuilder.inputUI("name")
 	              .message(anwer -> "Digite o nome: "+anwer.get("pizzatype").value())
 	              //.mask('*')
 	              .choices("Jim", "Jack", "John")
@@ -46,11 +46,11 @@ public class Basic2 {
 
 
 
-			HashMap<String, ? extends Answer> result = prompt.prompt(promptBuilder.build());
+			HashMap<String, ? extends AnswerUI> result = prompt.prompt(promptBuilder.build());
 			System.out.println("result = " + result);
 
-			ConfirmAnswer delivery = (ConfirmAnswer) result.get("delivery");
-			if (delivery.getConfirmed() == ConfirmChoice.ConfirmationValue.YES) {
+			ConfirmUIAnswer delivery = (ConfirmUIAnswer) result.get("delivery");
+			if (delivery.getConfirmed() == ConfirmUI.ConfirmationValue.YES) {
 				System.out.println("We will deliver the pizza in 5 minutes");
 			}
 		} catch (IOException e) {
